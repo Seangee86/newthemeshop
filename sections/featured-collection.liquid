@@ -1,13 +1,6 @@
-{% assign collection = collections[ 'featured-collection' ] %}
+{% assign collection = collections[section.settings.collection] %}
 {% for product in collection.products %}
-<div>
-  <a href="{{ product.url | within: collection }}">{{ product.title }}</a>
-  {{ product.price | money }}
-  {% unless product.available %}<br><strong>sold out</strong>{% endunless %}
-  <a href="{{ product.url | within: collection }}">
-    <img src="{{ product.featured_image.src | img_url: '200x' }}" alt="{{ product.featured_image.alt | escape }}">
-  </a>
-</div>
+    {% include 'product-item' %}
 {% else %}
 <p>no matches</p>
 {% endfor %}
@@ -15,7 +8,13 @@
 {% schema %}
   { 
     "name": "Featured Collection" ,
-    "settings": [],
+    "settings": [
+        {
+          "type": "collection",
+          "id": "collection",
+          "label": "collection"
+        }
+    ],
     "presets": [
         {
             "category": "Custom Content",
