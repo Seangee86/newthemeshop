@@ -1,18 +1,22 @@
 <div class="gallery">
     {% for block in section.blocks %}
+        {% if block.type == "image" %}
     <div class = "image-wrap" style ="background-image: url(' {{ block.settings.image | img_url: '500x' }} ');">                                      
     </div>
+        {% endif %}
     {% endfor %}
 </div>
 
 {% schema %}
 {
 	"name": "Gallery",
-	"settings": [{
+    "settings": [
+        {
 		"type": "select",
-		"id": "pre-row",
+		"id": "per-row",
 		"label": "Images per row",
-		"options": [{
+        "options": [
+            {
 
 				"value": "49.5%",
 				"label": "2 per row"
@@ -30,9 +34,30 @@
 				"label": "5 per row"
 			}
 		],
-		"default": "33%"
-
-	}],
+            "default": "33%"
+        },
+        {
+            "type": "select",
+            "id": "height",
+            "label": "Image Height",
+            "options": [
+            { 
+                "value": "300px",
+                "label": "300px"
+            },
+            { 
+                "value": "400px",
+                "label": "400px"
+            },
+            { 
+                "value": "500px",
+                "label": "500px"
+            }
+            ],
+            "default": "500px"
+           
+        }
+    ],
         "blocks": [
         {
             "type": "image",
@@ -44,6 +69,18 @@
                     "label": "Image"
                 }
             ]
+        },
+        {
+            "type": "video",
+            "name": "Video Block",
+            "settings": [
+                {
+                    "type": "video_url",
+                    "id": "video_url",
+                    "label": "Video Url",
+                    "accept": ["youtube"]
+                }
+            ]
         }
     ]
 }
@@ -52,8 +89,8 @@
 {% style %}
     .image-wrap {
         display: inline-block;
-        width: 33%;
-        height: 500px;
+        width: {{ section.settings.per-row}};
+        height: {{ section.settings.height}};
         background-size: cover;
     }   
 {% endstyle %}
